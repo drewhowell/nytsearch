@@ -1,0 +1,14 @@
+.header {
+    text-align: center;
+    color: white;
+    font-size: 48px;
+}
+
+.nyt {
+    background-color: #29305D;
+    padding: 20px;
+}
+
+footer {
+    text-align: center;
+}
