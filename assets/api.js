@@ -24,7 +24,7 @@ console.log(response);
 var docList=response.response.docs;
 console.log("List: "+docList);
 
-for(var i=0; i<numArticles-1;i++){
+for(var i=0; i<numArticles;i++){
 
     let title=docList[i].headline.main;
     let author=docList[i].byline.original;
@@ -33,7 +33,41 @@ for(var i=0; i<numArticles-1;i++){
     console.log(title);
     console.log(author);
     console.log(articleLink);
-}
+
+    // let outerDiv=$("<div>");
+    let linkElement=$("<a>");
+    linkElement.addClass("card-body");
+    linkElement.attr("href",articleLink);
+    let headP=$("<p>");
+    headP.addClass("card-title");
+    let numberSpan=$("<span>");
+    numberSpan.html(i+1);
+    headP.append(numberSpan);
+    let titleHeader=$("<span>");
+    titleHeader.html(title);
+    headP.append(titleHeader);
+    linkElement.append(headP);
+    let authorP = $("<p>");
+    authorP.addClass("card-text");
+    authorP.html(author);
+    linkElement.append(authorP);
+
+    $(".card-header").append(linkElement);
+
+
+    /*
+    <div>
+    <a>
+        <span>1</span><span>Headline</span>
+        <p>author</p>
+    </a>
+</div>
+    */
+
+
+
+
+}//for
 
 
 });
