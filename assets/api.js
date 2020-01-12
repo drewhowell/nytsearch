@@ -1,4 +1,4 @@
-var apiKey="4D97BaFaALZ6cyJ07SrGGBsG3dzTTNey";
+const apiKey="4D97BaFaALZ6cyJ07SrGGBsG3dzTTNey";
 var search="sports";
 var startYear="1995";
 var endYear="1996";
@@ -13,68 +13,65 @@ var yearStuff="";
 
 var apiLink = "https://api.nytimes.com/svc/search/v2/articlesearch.json?q="+search+"&"+yearStuff+"api-key="+apiKey;
 
-console.log("hi");
-$.ajax({
-    url: apiLink,
-    method: "GET"
-}).then(function(response){
-console.log(response);
+function getArticles(term,first,last){
+
+    search=term;
+    startYear=first;
+    endYear=last;
+    startStuff="start_date="+startYear+"0101";
+    endStuff="end_date="+endYear+"1231";
+    createYear(first,last);
+    apiLink = "https://api.nytimes.com/svc/search/v2/articlesearch.json?q="+search+"&"+yearStuff+"api-key="+apiKey;
+console.log(apiLink);
+    $.ajax({
+        url: apiLink,
+        method: "GET"
+    }).then(function(response){
+    console.log(response);
+
+    var docList=response.response.docs;
+    console.log("List: "+docList);
+    
+    for(var i=0; i<numArticles;i++){
+    
+        let title=docList[i].headline.main;
+        let author=docList[i].byline.original;
+        let articleLink = docList[i].web_url;
+    
+        console.log(title);
+        console.log(author);
+        console.log(articleLink);
+    
+        // let outerDiv=$("<div>");
+        let linkElement=$("<a>");
+        linkElement.addClass("card-body");
+        linkElement.attr("href",articleLink);
+        let headP=$("<p>");
+        headP.addClass("card-title");
+        let numberSpan=$("<span>");
+        numberSpan.html(i+1);
+        headP.append(numberSpan);
+        let titleHeader=$("<span>");
+        titleHeader.html(title);
+        headP.append(titleHeader);
+        linkElement.append(headP);
+        let authorP = $("<p>");
+        authorP.addClass("card-text");
+        authorP.html(author);
+        linkElement.append(authorP);
+    
+        $("#articleContainer").append(linkElement);
+    
+    }//for
+    
+    
+    });
+}//getArticles
 
 
-var docList=response.response.docs;
-console.log("List: "+docList);
-
-for(var i=0; i<numArticles;i++){
-
-    let title=docList[i].headline.main;
-    let author=docList[i].byline.original;
-    let articleLink = docList[i].web_url;
-
-    console.log(title);
-    console.log(author);
-    console.log(articleLink);
-
-    // let outerDiv=$("<div>");
-    let linkElement=$("<a>");
-    linkElement.addClass("card-body");
-    linkElement.attr("href",articleLink);
-    let headP=$("<p>");
-    headP.addClass("card-title");
-    let numberSpan=$("<span>");
-    numberSpan.html(i+1);
-    headP.append(numberSpan);
-    let titleHeader=$("<span>");
-    titleHeader.html(title);
-    headP.append(titleHeader);
-    linkElement.append(headP);
-    let authorP = $("<p>");
-    authorP.addClass("card-text");
-    authorP.html(author);
-    linkElement.append(authorP);
-
-    $(".card-header").append(linkElement);
-
-
-    /*
-    <div>
-    <a>
-        <span>1</span><span>Headline</span>
-        <p>author</p>
-    </a>
-</div>
-    */
-
-
-
-
-}//for
-
-
-});
-
-createYear("a","b");
-createYear("a","");
-createYear("","b");
+// createYear("a","b");
+// createYear("a","");
+// createYear("","b");
 
 function createYear(start,end){
 
